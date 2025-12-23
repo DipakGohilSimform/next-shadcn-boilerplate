@@ -10,7 +10,7 @@
 
    ```tsx
    // ✅ CORRECT - app/contact/page.tsx
-   import { Contact } from "@/feature/contact/ui";
+   import { Contact } from "@/components/features/contact";
    export default function ContactPage() {
      return <Contact />;
    }
@@ -29,8 +29,8 @@
 2. **Component Organization**
    - `src/components/ui/` - shadcn/ui components ONLY (installed via `npx shadcn@latest add`)
    - `src/components/shared/` - Reusable cross-feature components (rare, usually use feature modules)
-   - `src/feature/{name}/ui/` - Feature components (main container + subcomponents)
-   - `src/feature/{name}/hooks/` - Feature-specific hooks
+   - `src/components/features/{name}/` - Feature components (main container + subcomponents)
+   - Feature-specific hooks can be placed in `src/hooks/`
    - Each feature exports a main component (e.g., `About`, `Contact`) containing all page logic
 
 3. **TypeScript Strictness**
@@ -41,7 +41,7 @@
 4. **Styling Rules**
    - Use semantic tokens ONLY: `bg-background`, `text-foreground`, `border-border`
    - Never hardcode colors: ❌ `bg-white`, ❌ `text-black`, ❌ `bg-[#fff]`
-   - All tokens defined in `src/styles/globals.css` with Tailwind v4 `@theme inline`
+   - All tokens defined in `src/styles/global.css` with Tailwind v4 `@theme inline`
    - Use `cn()` from `@/lib/utils` for conditional classes
 
 5. **Commands** (npm only - no yarn/pnpm/bun)
@@ -51,45 +51,13 @@
    - Format: `npm run format`
    - Lint: `npm run lint:fix`
 
----
-
-## 🏗️ ADDING NEW FEATURES
-
-**Workflow for new feature (e.g., "dashboard")**:
-
-```bash
-# 1. Create feature structure
-mkdir -p src/feature/dashboard/{ui,hooks}
-
-# 2. Create main component (Dashboard.tsx)
-# Contains all page logic - imports subcomponents
-src/feature/dashboard/ui/Dashboard.tsx
-
-# 3. Create subcomponents in same directory
-src/feature/dashboard/ui/DashboardStats.tsx
-src/feature/dashboard/ui/DashboardChart.tsx
-
-# 4. Export from barrel (alphabetical order)
-src/feature/dashboard/ui/index.ts:
-export { Dashboard } from "./Dashboard";
-export { DashboardChart } from "./DashboardChart";
-export { DashboardStats } from "./DashboardStats";
-
-# 5. Create page (thin wrapper)
-src/app/dashboard/page.tsx:
-import { Dashboard } from "@/feature/dashboard/ui";
-export default function DashboardPage() {
-  return <Dashboard />;
-}
-```
-
 **Key Points**:
 
-- Feature folder = `src/feature/{name}/` with `ui/` and `hooks/` subdirectories
+- Feature folder = `src/components/features/{name}/` containing all feature components
 - Main component holds all composition logic (layout, data, state)
 - Subcomponents are implementation details (Hero, Form, Card sections, etc.)
 - Pages only import and render the main feature component
-- See `src/feature/about/` and `src/feature/contact/` as reference implementations
+- See `src/components/features/about/` and `src/components/features/contact/` as reference implementations
 
 ---
 
@@ -98,7 +66,7 @@ export default function DashboardPage() {
 **CRITICAL**: No `tailwind.config.ts` - configuration lives in CSS:
 
 ```css
-/* src/styles/globals.css */
+/* src/styles/global.css */
 @import "tailwindcss";
 
 @theme inline {
@@ -169,7 +137,7 @@ export { Button, buttonVariants };
 
 **ALWAYS use shadcn/ui Field components for ALL forms in the project:**
 
-### Basic Form Layout (See: `src/feature/contact/ui/ContactForm.tsx`)
+### Basic Form Layout (See: `src/components/features/contact/ContactForm.tsx`)
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -514,11 +482,10 @@ npx shadcn@latest add textarea   # For multi-line text inputs
 
 ### Creating Feature Components
 
-1. Create feature folder: `src/feature/{feature-name}/`
-2. Add ui folder: `src/feature/{feature-name}/ui/`
-3. Create component: `src/feature/{feature-name}/ui/ComponentName.tsx`
-4. Import from ui: `import { Button } from '@/components/ui/button'`
-5. Export in `src/feature/{feature-name}/ui/index.ts` (alphabetically)
+1. Create feature folder: `src/components/features/{feature-name}/`
+2. Create component: `src/components/features/{feature-name}/ComponentName.tsx`
+3. Import from ui: `import { Button } from '@/components/ui/button'`
+4. Export in `src/components/features/{feature-name}/index.ts` (alphabetically)
 
 ### Pre-commit Validation
 
@@ -564,8 +531,8 @@ Before completing any task, verify:
    // WRONG: Creating custom components in ui/
    // CORRECT: Use src/components/shared/ for reusable components
 
-   // WRONG: Creating shared components in feature/
-   // CORRECT: Use src/feature/{name}/ui/ for feature-specific components only
+   // WRONG: Creating shared components in features/
+   // CORRECT: Use src/components/features/{name}/ for feature-specific components only
    ```
 
 3. **❌ Random Export Order**
@@ -599,7 +566,7 @@ Before completing any task, verify:
 - `src/components/ui/button.tsx` - Variant system with CVA
 - `src/components/ui/card.tsx` - Composite component pattern
 - `src/components/ui/field.tsx` - Form field components (ALWAYS use for forms)
-- `src/feature/contact/ui/ContactForm.tsx` - Complete form implementation example
+- `src/components/features/contact/ContactForm.tsx` - Complete form implementation example
 - `src/lib/utils.ts` - Utility function patterns
 
 ### Adding New Components Checklist
@@ -607,8 +574,8 @@ Before completing any task, verify:
 1. Create component file in appropriate directory
    - shadcn components → `src/components/ui/`
    - Reusable shared components → `src/components/shared/`
-   - Feature-specific components → `src/feature/{name}/ui/`
-2. Follow naming convention (kebab-case for ui/, PascalCase for shared/feature)
+   - Feature-specific components → `src/components/features/{name}/`
+2. Follow naming convention (kebab-case for ui/, PascalCase for shared/features)
 3. Implement with TypeScript types
 4. Use `cn()` for className merging
 5. Export in alphabetical order from `index.ts`

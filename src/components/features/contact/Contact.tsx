@@ -1,5 +1,5 @@
-import { ContactHero } from "./ContactHero";
 import { ContactForm } from "./ContactForm";
+import { ContactHero } from "./ContactHero";
 import { ContactInfo } from "./ContactInfo";
 
 export function Contact() {

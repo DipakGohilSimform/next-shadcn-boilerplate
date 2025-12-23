@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export interface TeamMemberProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
@@ -27,7 +28,7 @@ export function TeamMember({
     <Card className={cn("overflow-hidden", className)} {...props}>
       {imageUrl && (
         <div className="aspect-square overflow-hidden bg-muted">
-          <img
+          <Image
             src={imageUrl}
             alt={name}
             className="h-full w-full object-cover"
