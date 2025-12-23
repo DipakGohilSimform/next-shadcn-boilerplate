@@ -40,16 +40,18 @@ See [`.github/setup.md`](.github/setup.md) for comprehensive documentation.
 
 ```
 src/
-├── app/              # Next.js pages
-├── components/       # React components
-│   ├── atoms/       # shadcn/ui components
-│   ├── molecules/   # Simple combinations
-│   ├── organisms/   # Complex components
-│   └── templates/   # Page layouts
-├── hooks/           # Custom hooks
-├── lib/             # Utilities
-├── styles/          # Global styles
-└── types/           # TypeScript types
+├── app/              # Next.js App Router pages
+├── components/       # Shared React components
+│   ├── icons/       # SVG icon components
+│   ├── shared/      # Reusable cross-feature components
+│   └── ui/          # shadcn/ui component library
+├── features/        # Feature modules (feature-based architecture)
+│   ├── about/       # About feature
+│   └── contact/     # Contact feature
+├── hooks/           # Global custom hooks
+├── lib/             # Utility functions
+├── styles/          # Global CSS and design tokens
+└── types/           # Shared TypeScript types
 ```
 
 ## License
